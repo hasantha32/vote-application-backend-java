@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+</head>
+<body>
+    <h1>Signup</h1>
+    <form id="signupForm">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+        <span style="background-color: brown;">Password must be more than 5 characters</span>
+         <br><br><button type="submit">Signup</button>
+    </form>
+
+    <div id="responseMessage"></div>
+
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            const response = await fetch('/api/auth/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username,
+                    email,
+                    password,
+                    roles: ["ROLE_USER"]
+                })
+            });
+
+            const responseData = await response.json();
+            const responseMessage = document.getElementById('responseMessage');
+
+            if (response.ok) {
+                responseMessage.textContent = 'User registered successfully!';
+                responseMessage.style.color = 'green';
+            } else {
+                responseMessage.textContent = responseData.message || 'Signup failed.';
+                responseMessage.style.color = 'red';
+            }
+        });
+    </script>
+</body>
+</html>

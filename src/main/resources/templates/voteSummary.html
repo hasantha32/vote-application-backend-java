@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vote Summary</title>
+</head>
+<body>
+    <h1>Vote Summary</h1>
+    <form id="summaryForm">
+        <label for="profileId">Profile ID:</label>
+        <input type="text" id="profileId" name="profileId"><br><br>
+        <button type="submit">Get Summary</button>
+    </form>
+
+    <div id="summaryContainer"></div>
+
+    <script>
+        document.getElementById('summaryForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const profileId = document.getElementById('profileId').value;
+
+            const response = await fetch(`/api/vote/summary/${profileId}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token') // Assumes token is stored in local storage
+                }
+            });
+
+            if (response.ok) {
+                const votes = await response.json();
+                displayVoteSummary(votes);
+            } else {
+                alert('Failed to retrieve vote summary.');
+            }
+        });
+
+        function displayVoteSummary(votes) {
+            const summaryContainer = document.getElementById('summaryContainer');
+            summaryContainer.innerHTML = ''; // Clear previous content
+            const ul = document.createElement('ul');
+            if (votes.length === 0) {
+                summaryContainer.innerHTML = '<p>No votes found for this profile.</p>';
+                return;
+            }
+            else{
+                const li = document.createElement('li');
+                li.textContent = `${votes.length} Votes Received `;
+                ul.appendChild(li);
+            }
+            summaryContainer.appendChild(ul);
+        }
+    </script>
+</body>
+</html>

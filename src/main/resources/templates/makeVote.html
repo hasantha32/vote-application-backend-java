@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vote for Profile</title>
+</head>
+<body>
+    <h1>Vote for Profile</h1>
+    <form id="voteForm">
+        <label for="profileId">Profile ID:</label>
+        <input type="text" id="profileId" name="profileId"><br><br>
+
+        <button type="submit">Vote</button>
+    </form>
+
+    <script>
+       
+        document.getElementById('voteForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const profileId = document.getElementById('profileId').value;
+
+            const response = await fetch(`/api/vote/cast?profileId=${profileId}`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token') // Assumes token is stored in local storage
+                }
+            });
+
+            if (response.ok) {
+                alert('Voted successfully!');
+            } else {
+                alert('Failed to cast vote.');
+            }
+        });
+    </script>
+</body>
+</html>

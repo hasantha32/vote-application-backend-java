@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .menu {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .menu button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .menu button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to the Menu</h1>
+    <div class="menu">
+        <button onclick="location.href='/App/profileCreation'">Create Profile</button>
+        <button onclick="location.href='/App/voteProfile'">Make Vote</button>
+        <button onclick="location.href='/App/voteSummary'">Results</button>
+        <button onclick="logout()">Log Out</button>
+    </div>
+
+    <script>
+        function logout() {
+            // Remove the token from local storage
+            localStorage.removeItem('token');
+
+            // Redirect to the homepage
+            window.location.href = '/';
+        }
+    </script>
+</body>
+</html>
